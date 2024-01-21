@@ -2,7 +2,7 @@ import '../scss/main.scss';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
-function CardJulia({
+function CardTvs({
   title = 'Default Title',
   image,
   description = 'Default description',
@@ -19,4 +19,4 @@ function CardJulia({
     </Card>
   );
 }
-export default CardJulia;
+export default CardTvs;

@@ -21,6 +21,7 @@ const Home = () => {
               värdesätter långsiktiga relationer och det ska kännas tryggt att
               anlita oss.
             </p>
+            <h1>Våra tjänster</h1>
           </Col>
         </Row>
       </Container>

@@ -6,11 +6,16 @@ Frontend map:
 cd into and:
 
 1. npm init vite@latest . (skapar i samma map)
-2. npm install react-router-dom
-3. npm install bootstrap (https://getbootstrap.com/) (använd inte JS delen i bootstrap, det krockar med våra ramverk)
-4. npm install react-bootstrap
-5. npm install react-icons --save
-6. npm install sass (installerar sass kompliatorn)
+2. npm install:
+   "dependencies": {
+   "bootstrap"
+   "react"
+   "react-bootstrap"
+   "react-dom"
+   "react-icons"
+   "react-router-dom"
+   "sass"
+   }
 
 start frontend without backend being connected:
 npm run dev -> in frontend map (starts the frontend)

@@ -23,3 +23,14 @@
     }
   }
 }
+
+.icon-link {
+  color: inherit; // This will make the icon inherit the color from its parent.
+  text-decoration: none; // This will remove the underline from the link.
+
+  &:hover,
+  &:focus {
+    color: inherit; // Keep the color the same even when hovered or focused.
+    text-decoration: none; // Remove underline on hover or focus as well.
+  }
+}

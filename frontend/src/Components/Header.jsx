@@ -4,13 +4,13 @@ import Navbar from 'react-bootstrap/Navbar';
 
 function Header() {
   return (
-    <Navbar bg='dark' expand='lg' variant='dark'>
+    <Navbar bg='primary' expand='lg'>
       <Container>
         <Navbar.Brand href='/'>TVS</Navbar.Brand>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='ms-auto'>
-            <Nav.Link href='/'>Hem</Nav.Link>
+            <Nav.Link href='/'>Home</Nav.Link>
             <Nav.Link href='/aboutme'>Om oss</Nav.Link>
           </Nav>
         </Navbar.Collapse>

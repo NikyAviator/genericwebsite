@@ -9,3 +9,17 @@
 #root footer {
   flex-shrink: 0; /* This tells the browser that the footer should not shrink if there is not enough space */
 }
+
+.footer {
+  background-color: #f8f9fa; // Example background color
+  padding: 20px 0;
+  .footer-item {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    svg {
+      margin-right: 10px;
+    }
+  }
+}

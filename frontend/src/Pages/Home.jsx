@@ -10,9 +10,13 @@ const Home = () => {
       <Container>
         <Row>
           <Col>
-            <h1>Välkommen till oss på Team Vägservice Sverige!</h1>
-            <h3>Kvalitet, ansvar & service sedan 1987</h3>
-            <p>
+            <h1 className='airy-header'>
+              Välkommen till oss på Team Vägservice Sverige!
+            </h1>
+            <h3 className='airy-subheader'>
+              Kvalitet, ansvar & service sedan 1987
+            </h3>
+            <p className='airy-text'>
               Team Vägservice Sverige (TVS) erbjuder kvalitativa lösningar när
               det gäller trafiksäkerhet, snöröjning, jour och tillsyn samt
               varu-, gods- och maskintransporter. Bolaget startades 2006 och är

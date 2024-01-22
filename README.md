@@ -1,4 +1,4 @@
-# teamvagservice
+# genericwebsite
 
 ## VITE project with backend and frontend map:
 

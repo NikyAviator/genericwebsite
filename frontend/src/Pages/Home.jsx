@@ -3,11 +3,17 @@ import '../scss/main.scss';
 import Container from 'react-bootstrap/esm/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-
+import tma2 from '../public/tma2.jpeg';
+import BasicCarousel from '../Components/BasicCarousel';
 const Home = () => {
   return (
     <>
+      <div
+        style={{ backgroundImage: `url(${tma2})` }}
+        className='home-background-image'
+      ></div>
       <Container>
+        <div className='home-background-overlay'></div>
         <Row>
           <Col>
             <h1 className='airy-header'>
@@ -27,6 +33,9 @@ const Home = () => {
             </p>
             <h1>Våra tjänster: TEST</h1>
           </Col>
+        </Row>
+        <Row>
+          <BasicCarousel />
         </Row>
       </Container>
     </>

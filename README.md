@@ -131,3 +131,7 @@ flex: 1;
 3. Control + click in the terminal to get to the website:
 
 - http://localhost:5173/
+
+OR
+
+npm run dev:ssr (not working atm)

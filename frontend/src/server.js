@@ -1,35 +1,72 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+// https://github.com/bluwy/create-vite-extra/blob/master/template-ssr-react/server.js
+import fs from 'node:fs/promises';
 import express from 'express';
-import { createServer as createViteServer } from 'vite';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// Constants
+const isProduction = process.env.NODE_ENV === 'production';
+const port = process.env.PORT || 5173;
+const base = process.env.BASE || '/';
 
-async function createServer() {
-  const app = express();
+// Cached production assets
+const templateHtml = isProduction
+  ? await fs.readFile('./dist/client/index.html', 'utf-8')
+  : '';
+const ssrManifest = isProduction
+  ? await fs.readFile('./dist/client/.vite/ssr-manifest.json', 'utf-8')
+  : undefined;
 
-  // Create Vite server in middleware mode and configure the app type as
-  // 'custom', disabling Vite's own HTML serving logic so parent server
-  // can take control
-  const vite = await createViteServer({
+// Create http server
+const app = express();
+
+// Add Vite or respective production middlewares
+let vite;
+if (!isProduction) {
+  const { createServer } = await import('vite');
+  vite = await createServer({
     server: { middlewareMode: true },
     appType: 'custom',
+    base,
   });
-
-  // Use vite's connect instance as middleware. If you use your own
-  // express router (express.Router()), you should use router.use
-  // When the server restarts (for example after the user modifies
-  // vite.config.js), `vite.middlewares` is still going to be the same
-  // reference (with a new internal stack of Vite and plugin-injected
-  // middlewares. The following is valid even after restarts.
   app.use(vite.middlewares);
-
-  app.use('*', async (req, res) => {
-    // serve index.html - we will tackle this next
-  });
-
-  app.listen(5173);
+} else {
+  const compression = (await import('compression')).default;
+  const sirv = (await import('sirv')).default;
+  app.use(compression());
+  app.use(base, sirv('./dist/client', { extensions: [] }));
 }
 
-createServer();
+// Serve HTML
+app.use('*', async (req, res) => {
+  try {
+    const url = req.originalUrl.replace(base, '');
+
+    let template;
+    let render;
+    if (!isProduction) {
+      // Always read fresh template in development
+      template = await fs.readFile('./index.html', 'utf-8');
+      template = await vite.transformIndexHtml(url, template);
+      render = (await vite.ssrLoadModule('/src/entry-server.jsx')).render;
+    } else {
+      template = templateHtml;
+      render = (await import('./dist/server/entry-server.js')).render;
+    }
+
+    const rendered = await render(url, ssrManifest);
+
+    const html = template
+      .replace(`<!--app-head-->`, rendered.head ?? '')
+      .replace(`<!--app-html-->`, rendered.html ?? '');
+
+    res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
+  } catch (e) {
+    vite?.ssrFixStacktrace(e);
+    console.log(e.stack);
+    res.status(500).end(e.stack);
+  }
+});
+
+// Start http server
+app.listen(port, () => {
+  console.log(`Server started at http://localhost:${port}`);
+});
